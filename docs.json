@@ -87,5 +87,8 @@
       "linkedin": "https://linkedin.com/company/layerai",
       "discord": "https://discord.gg/layerai"
     }
+  },
+  "fonts": {
+    "family": "Outfit"
   }
 }
