@@ -3,8 +3,8 @@
   "theme": "mint",
   "name": "Layer",
   "colors": {
-    "primary": "#6C5CE7",
-    "light": "#A29BFE",
+    "primary": "#600FC2",
+    "light": "#A48CFD",
     "dark": "#5A4BD1"
   },
   "favicon": "/images/favicon.png",
@@ -53,7 +53,8 @@
   },
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://www.layer.ai/"
   },
   "navbar": {
     "links": [
