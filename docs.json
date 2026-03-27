@@ -32,43 +32,6 @@
             "pages": [
               "api-reference/introduction"
             ]
-          },
-          {
-            "group": "Workspaces",
-            "pages": [
-              "GET /v1/workspaces",
-              "GET /v1/workspaces/{workspace_id}"
-            ]
-          },
-          {
-            "group": "Models",
-            "pages": [
-              "GET /v1/workspaces/{workspace_id}/models",
-              "GET /v1/workspaces/{workspace_id}/models/{model_id}"
-            ]
-          },
-          {
-            "group": "Workflows",
-            "pages": [
-              "GET /v1/workspaces/{workspace_id}/workflows",
-              "POST /v1/workspaces/{workspace_id}/workflows/{workflow_id}/estimate",
-              "POST /v1/workspaces/{workspace_id}/workflows/{workflow_id}/runs",
-              "GET /v1/workspaces/{workspace_id}/workflows/{workflow_id}/runs/{run_id}"
-            ]
-          },
-          {
-            "group": "Inferences",
-            "pages": [
-              "POST /v1/workspaces/{workspace_id}/inferences/estimate",
-              "POST /v1/workspaces/{workspace_id}/inferences",
-              "GET /v1/workspaces/{workspace_id}/inferences/{inference_id}"
-            ]
-          },
-          {
-            "group": "Files",
-            "pages": [
-              "POST /v1/workspaces/{workspace_id}/files"
-            ]
           }
         ]
       }
