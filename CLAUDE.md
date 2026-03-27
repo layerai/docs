@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Mintlify documentation site. Pages are MDX files with YAML frontmatter. Site configuration is in `docs.json`.
+Layer API documentation site built with Mintlify. Pages are MDX files with YAML frontmatter. Site configuration is in `docs.json`.
 
 ## Commands
 
@@ -17,16 +17,24 @@ Mintlify documentation site. Pages are MDX files with YAML frontmatter. Site con
 ## Architecture
 
 - `docs.json` — central config: navigation structure, theme, branding, navbar, footer
-- `index.mdx` — landing page
-- `essentials/` — core docs about Mintlify features (markdown, code, images, navigation, settings)
-- `api-reference/` — API docs with OpenAPI spec (`openapi.json`) and endpoint examples
-- `ai-tools/` — guides for AI tool integrations (Cursor, Claude Code, Windsurf)
-- `snippets/` — reusable MDX snippets (imported via `<Snippet>` component)
+- `index.mdx` — landing page with high-level concept overview
+- `quickstart.mdx` — end-to-end generation walkthrough
+- `api-reference/` — API reference intro and OpenAPI spec (`openapi.json`); endpoint pages are auto-generated
 - `images/`, `logo/` — static assets
 
 ## Navigation
 
 Navigation is defined in `docs.json` under `navigation.tabs[].groups[].pages`. Page paths are relative to root without the `.mdx` extension. When adding a new page, it must be added to `docs.json` navigation to appear on the site.
+
+API reference endpoint pages are auto-generated from the OpenAPI spec — no individual MDX files needed. Endpoints are listed in `docs.json` as `"METHOD /path"` strings.
+
+## Updating the OpenAPI spec
+
+The spec is fetched from the Layer app running locally:
+
+```bash
+curl -s http://localhost:3000/backend/rest/openapi.json | python3 -m json.tool > api-reference/openapi.json
+```
 
 ## Writing Style
 
@@ -35,3 +43,4 @@ Navigation is defined in `docs.json` under `navigation.tabs[].groups[].pages`. P
 - Bold for UI elements: Click **Settings**
 - Code formatting for file names, commands, paths, and code references
 - One idea per sentence
+- All code examples use the production API base URL: `https://api.app.layer.ai/api`
