@@ -1,0 +1,156 @@
+---
+title: "MCP server"
+description: "Use Layer's AI models directly from Claude and other MCP-compatible clients"
+---
+
+Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that lets you generate images, 3D assets, video, and audio directly from Claude conversations — no code required.
+
+## Connect to Layer
+
+<Tabs>
+  <Tab title="Claude.ai / Claude Desktop">
+    <Note>
+      **Solo user or personal account?** Do both steps below.
+      **On a team?** Your admin does step 1 once, then each member does step 2.
+    </Note>
+
+    ### Step 1 — Add the Layer connector (admin / solo user)
+
+    1. Open Claude.ai or Claude Desktop, go to **Customize > Connectors** and click **Add custom connector**
+    2. Name the connection **Layer** and set the URL to:
+       ```
+       https://mcp.app.layer.ai/mcp
+       ```
+    3. Click **Add**
+
+    ### Step 2 — Connect your account (everyone)
+
+    1. Go to **Customize > Connectors > Layer > Connect**
+    2. Authorize with your Layer account when prompted
+
+    ### Step 3 — Verify it works
+
+    Open a new conversation and ask:
+
+    > "What can I do with Layer?"
+
+    Claude should respond with Layer's capabilities. If it doesn't, check that the connector shows as **Connected** in your Connectors settings.
+  </Tab>
+  <Tab title="Claude Code (CLI)">
+    1. Add the Layer MCP server:
+       ```bash
+       claude mcp add --transport http Layer https://mcp.app.layer.ai/mcp
+       ```
+       <Tip>If this fails with a transport error, try `--transport sse` instead — the correct flag depends on your Claude Code version.</Tip>
+
+    2. Launch Claude Code and run `/mcp` to open the MCP management panel
+
+    3. Select **Layer** and choose **Authenticate** — log in with your Layer account in the browser window that opens
+
+    4. Verify by asking: *"What can I do with Layer?"*
+  </Tab>
+</Tabs>
+
+## Available tools
+
+The MCP server exposes the following tools. Claude selects and calls them automatically based on your prompts.
+
+### Instructions
+
+| Tool | Description |
+|------|-------------|
+| `get_instructions` | Returns platform guidance, Creative Unit pricing info, and error codes |
+| `get_workflow_instructions` | Returns the full workflow lifecycle: discover, estimate, execute, poll, display |
+| `get_forge_instructions` | Returns the forge (direct model execution) lifecycle |
+
+Claude calls these automatically to understand how to use the platform. You don't need to invoke them directly.
+
+### Workspaces
+
+| Tool | Description |
+|------|-------------|
+| `list_workspaces` | List all workspaces you belong to, including Creative Unit balances |
+| `get_workspace` | Get details for a specific workspace |
+
+### Models
+
+| Tool | Description |
+|------|-------------|
+| `get_model_recommendations` | Get curated model recommendations by category |
+| `list_models` | Search and filter models by modality, capabilities, or text query |
+| `get_model` | Get full details for a model including capabilities and prompt format |
+
+Models can be filtered by modality (`image`, `video`, `three_d`, `audio`) and by capabilities like `inpainting`, `style_reference`, `text_to_3d`, `lipsync`, and more.
+
+### Workflows
+
+Workflows are multi-step pipelines built in the Layer app's Blueprint editor.
+
+| Tool | Description |
+|------|-------------|
+| `list_workflows` | List available workflows with their inputs and outputs |
+| `estimate_workflow_price` | Check the Creative Unit cost before running |
+| `execute_workflow` | Run a workflow (async — returns a `run_id`) |
+| `get_workflow_run` | Poll for workflow run status and results |
+| `cancel_workflow_run` | Cancel a running workflow and release reserved CUs |
+
+### Forge (direct model execution)
+
+Forge runs a single model directly, giving you full control over parameters.
+
+| Tool | Description |
+|------|-------------|
+| `estimate_forge_price` | Check the Creative Unit cost for a generation |
+| `execute_forge` | Run inference on a model (async — returns an `inference_id`) |
+| `get_forge_run` | Poll for forge run status and generated assets |
+
+Forge supports the full range of generation parameters: prompts, dimensions, batch size, guidance files (reference images, masks, poses, depth maps), video effects, 3D options, audio settings, and post-processing (upscale, vectorize, remove background).
+
+### Files
+
+| Tool | Description |
+|------|-------------|
+| `upload_file` | Upload an image or video from a URL for use as input in workflows or forge |
+
+Supported formats: PNG, JPEG, WebP (up to 100 MB), MP4 (up to 5 GB).
+
+## Example prompts
+
+Once connected, you can ask Claude things like:
+
+- *"Generate 4 variations of a crystal sword icon on a transparent background"*
+- *"Show me what image models are available for my workspace"*
+- *"Create a 3D model of a treasure chest from this reference image"*
+- *"Run the product shot workflow with a photo of my item"*
+- *"How many Creative Units do I have left?"*
+
+Claude will pick the right tools, estimate costs, run the generation, and show you the results.
+
+## Error codes
+
+| Code | Status | Meaning |
+|------|--------|---------|
+| `UNAUTHENTICATED` | 401 | OAuth connection not completed — reconnect in your Connectors settings |
+| `FORBIDDEN` | 403 | You don't have permission for this action |
+| `INSUFFICIENT_BALANCE` | 402 | Not enough Creative Units — top up in **Settings > Billing** |
+| `RATE_LIMITED` | 429 | Max 5 concurrent runs per user per workspace |
+| `WORKSPACE_NOT_FOUND` | 404 | Workspace doesn't exist or you're not a member |
+| `MODEL_NOT_FOUND` | 404 | Model not found or not available in this workspace |
+| `WORKFLOW_NOT_FOUND` | 404 | Workflow not found or not linked to this workspace |
+| `RUN_NOT_FOUND` | 404 | Workflow or forge run doesn't exist |
+| `INVALID_INPUTS` | 400 | Malformed parameters or UUIDs |
+| `UPLOAD_FAILED` | 400 | File could not be downloaded or stored |
+
+## Troubleshooting
+
+**Layer doesn't appear in my Connectors list**
+Your team admin needs to add the custom connector first. If you're on a personal account, make sure you're looking under **Customize > Connectors**.
+
+**Authorization fails or times out**
+Make sure you have an active Layer account at [layer.ai](https://layer.ai). If you're behind a VPN or corporate firewall, the OAuth redirect may be blocked — try on a direct connection.
+
+**Claude doesn't seem to use Layer tools**
+Start a new conversation after connecting — existing conversations won't pick up new connectors. Check that the connector status shows **Connected** (not just **Added**).
+
+**CLI: "unknown transport" error**
+Try `--transport sse` instead of `--transport http` — the correct value depends on your Claude Code version.
