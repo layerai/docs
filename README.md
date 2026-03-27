@@ -16,11 +16,10 @@ View at `http://localhost:3000`.
 ## Structure
 
 - `docs.json` — site configuration and navigation
-- `index.mdx` — landing page
-- `quickstart.mdx` — getting started guide
-- `authentication.mdx` — auth setup
-- `guides/` — concept guides (workspaces, models, inferences, workflows, files, etc.)
-- `api-reference/` — API reference with OpenAPI spec
+- `index.mdx` — landing page with key concepts overview
+- `quickstart.mdx` — end-to-end generation walkthrough
+- `mcp-server.mdx` — MCP server setup, tools, and troubleshooting
+- `api-reference/` — API reference intro and OpenAPI spec (endpoint pages are auto-generated)
 - `logo/`, `images/` — static assets
 
 ## Adding pages
