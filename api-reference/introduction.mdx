@@ -1,33 +1,57 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'REST API for AI-powered game asset creation on the Layer platform'
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
-
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require a Bearer token in the `Authorization` header:
+
+```
+Authorization: Bearer <token>
+```
+
+### Personal Access Tokens (recommended)
+
+The simplest way to authenticate:
+
+1. Log in to [app.layer.ai](https://app.layer.ai)
+2. Go to **Settings > Personal Access Tokens**
+3. Click **Create Token**, give it a name, and copy the token value
+4. Pass it as `Authorization: Bearer <your-pat-token>`
+
+PATs are long-lived and ideal for scripts, CI pipelines, and partner integrations.
+
+### OAuth2 (browser-based)
+
+For browser-based applications, use the Auth0 OAuth2 flow. Redirect users to
+the Layer login page, exchange the authorization code for a JWT access token,
+and use it as `Authorization: Bearer <jwt>`.
+
+## Creative Units
+
+Generations consume Creative Units (CUs). Use the estimate endpoints to check
+cost before executing. Check workspace balance via `GET /v1/workspaces/{id}`.
+
+## Pagination
+
+List endpoints support cursor-based pagination via `limit` and `cursor` query
+parameters. Responses include a `pagination` object with `next_cursor`,
+`has_more_results`, and `total_count`. Cursors are opaque — do not parse or
+construct them.
+
+## Errors
+
+All errors return [RFC 7807 Problem Details](https://tools.ietf.org/html/rfc7807):
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "type": "https://api.layer.ai/errors/ERROR_CODE",
+  "title": "Human-readable title",
+  "status": 404,
+  "detail": "Detailed description of what went wrong."
+}
 ```
+
+Common status codes: `401` (unauthenticated), `402` (insufficient balance),
+`403` (forbidden), `404` (not found), `422` (invalid input), `429` (rate limited).
