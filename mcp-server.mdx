@@ -3,7 +3,7 @@ title: "MCP server"
 description: "Use Layer's AI models directly from Claude and other MCP-compatible clients"
 ---
 
-Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that lets you generate images, 3D assets, video, and audio directly from Claude conversations — no code required.
+Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that lets you generate images, 3D assets, video, and audio directly from AI conversations — no code required.
 
 ## Connect to Layer
 
@@ -49,11 +49,51 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
 
     4. Verify by asking: *"What can I do with Layer?"*
   </Tab>
+  <Tab title="OpenAI Codex">
+    1. Open or create your Codex config file at `~/.codex/config.toml` (or `.codex/config.toml` in your project root)
+
+    2. Add the Layer MCP server:
+       ```toml
+       [mcp_servers.layer]
+       url = "https://mcp.app.layer.ai/mcp"
+       ```
+
+    3. Authenticate with your Layer account:
+       ```bash
+       codex mcp login layer
+       ```
+
+    4. Verify by asking: *"What can I do with Layer?"*
+
+    <Tip>This configuration works in both the Codex CLI and the Codex IDE extension (VS Code) — they share the same config file.</Tip>
+  </Tab>
+  <Tab title="Manus">
+    <Note>
+      Manus does not support OAuth-based authentication for MCP servers. Instead, use a **Personal Access Token (PAT)** from your Layer account to connect.
+    </Note>
+
+    1. Generate a Personal Access Token in your Layer account settings
+
+    2. In Manus, open **Connectors** and go to the **Custom MCP** tab
+
+    3. Click **+ Add custom MCP** and fill in:
+       - **Server Name:** `Layer`
+       - **Transport Type:** `HTTP`
+       - **Server URL:** `https://mcp.app.layer.ai/mcp`
+
+    4. Click **+ Add custom header** and add:
+       - **Header:** `Authorization`
+       - **Value:** `Bearer <your-personal-access-token>`
+
+    5. Click **Save**
+
+    6. Verify by asking: *"What can I do with Layer?"*
+  </Tab>
 </Tabs>
 
 ## Available tools
 
-The MCP server exposes the following tools. Claude selects and calls them automatically based on your prompts.
+The MCP server exposes the following tools. Your AI agent selects and calls them automatically based on your prompts.
 
 ### Instructions
 
@@ -63,7 +103,7 @@ The MCP server exposes the following tools. Claude selects and calls them automa
 | `get_workflow_instructions` | Returns the full workflow lifecycle: discover, estimate, execute, poll, display |
 | `get_forge_instructions` | Returns the forge (direct model execution) lifecycle |
 
-Claude calls these automatically to understand how to use the platform. You don't need to invoke them directly.
+These are called automatically to understand how to use the platform. You don't need to invoke them directly.
 
 ### Workspaces
 
@@ -116,7 +156,7 @@ Supported formats: PNG, JPEG, WebP (up to 100 MB), MP4 (up to 5 GB).
 
 ## Example prompts
 
-Once connected, you can ask Claude things like:
+Once connected, try prompts like:
 
 - *"Generate 4 variations of a crystal sword icon on a transparent background"*
 - *"Show me what image models are available for my workspace"*
@@ -124,7 +164,7 @@ Once connected, you can ask Claude things like:
 - *"Run the product shot workflow with a photo of my item"*
 - *"How many Creative Units do I have left?"*
 
-Claude will pick the right tools, estimate costs, run the generation, and show you the results.
+Your AI agent will pick the right tools, estimate costs, run the generation, and show you the results.
 
 ## Error codes
 
@@ -154,3 +194,9 @@ Start a new conversation after connecting — existing conversations won't pick 
 
 **CLI: "unknown transport" error**
 Try `--transport sse` instead of `--transport http` — the correct value depends on your Claude Code version.
+
+**Codex: authentication fails**
+Run `codex mcp login layer` again to re-authenticate. Make sure you have an active Layer account.
+
+**Manus: tools not working**
+Verify that your Personal Access Token is valid and the Authorization header value starts with `Bearer ` (with a space) followed by your token. Check that the Transport Type is set to **HTTP**.
