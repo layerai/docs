@@ -72,22 +72,34 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
       Manus does not support OAuth-based authentication for MCP servers. Instead, use a **Personal Access Token (PAT)** from your Layer account to connect.
     </Note>
 
-    1. Generate a Personal Access Token in your Layer account settings
+    ### Step 1 — Create a Personal Access Token
 
-    2. In Manus, open **Connectors** and go to the **Custom MCP** tab
+    1. In Layer, go to **User Settings > New Token**
+    2. Copy the generated token (it starts with `pat_`)
 
-    3. Click **+ Add custom MCP** and fill in:
-       - **Server Name:** `Layer`
-       - **Transport Type:** `HTTP`
-       - **Server URL:** `https://mcp.app.layer.ai/mcp`
+    ### Step 2 — Add the Layer connector
 
-    4. Click **+ Add custom header** and add:
-       - **Header:** `Authorization`
-       - **Value:** `Bearer <your-personal-access-token>`
+    In Manus, go to **Personalization > Connectors**, click **Add connector**, then select **Custom MCP > Import by JSON** and paste:
 
-    5. Click **Save**
+    ```json
+    {
+      "mcpServers": {
+        "Layer": {
+          "type": "streamableHttp",
+          "url": "https://mcp.app.layer.ai/mcp",
+          "headers": {
+            "Authorization": "Bearer <your-personal-access-token>"
+          }
+        }
+      }
+    }
+    ```
 
-    6. Verify by asking: *"What can I do with Layer?"*
+    Replace `<your-personal-access-token>` with the token from step 1.
+
+    ### Step 3 — Verify it works
+
+    Ask Manus: *"What can I do with Layer?"*
   </Tab>
 </Tabs>
 
