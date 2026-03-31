@@ -50,22 +50,37 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
     4. Verify by asking: *"What can I do with Layer?"*
   </Tab>
   <Tab title="OpenAI Codex">
-    1. Open or create your Codex config file at `~/.codex/config.toml` (or `.codex/config.toml` in your project root)
+    <Note>
+      Codex does not support OAuth-based authentication for MCP servers. Instead, use a **Personal Access Token (PAT)** from your Layer account to connect.
+    </Note>
 
-    2. Add the Layer MCP server:
-       ```toml
-       [mcp_servers.layer]
-       url = "https://mcp.app.layer.ai/mcp"
-       ```
+    ### Step 1 — Create a Personal Access Token
 
-    3. Authenticate with your Layer account:
-       ```bash
-       codex mcp login layer
-       ```
+    1. In Layer, go to **User Settings > New Token**
+    2. Copy the generated token (it starts with `pat_`)
 
-    4. Verify by asking: *"What can I do with Layer?"*
+    ### Step 2 — Add the Layer connector
 
-    <Tip>This configuration works in both the Codex CLI and the Codex IDE extension (VS Code) — they share the same config file.</Tip>
+    1. In Codex, go to **Connect to a custom MCP**
+    2. Select the **Streamable HTTP** tab
+    3. Fill in:
+       - **Name:** `Layer`
+       - **URL:** `https://mcp.app.layer.ai/mcp`
+       - **Bearer token env var:** paste your Personal Access Token
+    4. Click **Save**
+
+    ### Step 3 — Verify it works
+
+    Ask Codex: *"What can I do with Layer?"*
+
+    <Tip>You can also configure this via `~/.codex/config.toml`:
+    ```toml
+    [mcp_servers.layer]
+    url = "https://mcp.app.layer.ai/mcp"
+    bearer_token_env_var = "LAYER_PAT"
+    ```
+    Then set the environment variable: `export LAYER_PAT="pat_your_token_here"`
+    </Tip>
   </Tab>
   <Tab title="Manus">
     <Note>
