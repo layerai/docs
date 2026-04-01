@@ -91,5 +91,6 @@
   },
   "fonts": {
     "family": "Outfit"
-  }
+  },
+  "css": "/styles.css"
 }

@@ -8,114 +8,391 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
 ## Connect to Layer
 
 <Tabs>
-  <Tab title="Claude.ai / Claude Desktop">
-    <Note>
-      **Solo user or personal account?** Do both steps below.
-      **On a team?** Your admin does step 1 once, then each member does step 2.
-    </Note>
+  <Tab title="OAuth">
+    Connect using your Layer account — recommended for most agents.
 
-    ### Step 1 — Add the Layer connector (admin / solo user)
+    <Tabs>
+      <Tab title="Claude.ai / Claude Desktop">
+        1. Open **Settings > Developer > MCP Servers**.
+        2. Add this config:
+           ```json
+           {
+             "mcpServers": {
+               "Layer": {
+                 "command": "npx",
+                 "args": [
+                   "-y",
+                   "mcp-remote",
+                   "https://mcp.app.layer.ai/mcp"
+                 ]
+               }
+             }
+           }
+           ```
+        3. Requires Node.js. `mcp-remote` is installed automatically via npx.
+      </Tab>
+      <Tab title="Claude Code (CLI)">
+        1. Open your terminal to access the CLI.
+        2. Run this command:
+           ```bash
+           claude mcp add --transport http Layer https://mcp.app.layer.ai/mcp
+           ```
+        3. Launch Claude Code and run `/mcp` to open the MCP management panel.
+        4. Select **Layer** and choose **Authenticate** — log in with your Layer account in the browser window that opens.
 
-    1. Open Claude.ai or Claude Desktop, go to **Customize > Connectors** and click **Add custom connector**
-    2. Name the connection **Layer** and set the URL to:
-       ```
-       https://mcp.app.layer.ai/mcp
-       ```
-    3. Click **Add**
+        <Note>If this fails with a transport error, try `--transport sse` instead — the correct flag depends on your Claude Code version.</Note>
+      </Tab>
+      <Tab title="Codex">
+        1. Open your terminal to access the CLI.
+        2. Run this command:
+           ```bash
+           codex mcp add layer -- npx -y mcp-remote@latest https://mcp.app.layer.ai/mcp
+           ```
+        3. Or add to `~/.codex/config.toml` manually.
+        4. OAuth triggers on first use.
+      </Tab>
+      <Tab title="Manus">
+        Manus does not support OAuth. Switch to the **API Key** tab above for Manus setup instructions.
+      </Tab>
+      <Tab title="Cursor">
+        [Install with Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=Layer&config=eyJ0eXBlIjoiaHR0cCIsInVybCI6Imh0dHBzOi8vbWNwLmFwcC5sYXllci5haS9tY3AifQ==)
 
-    ### Step 2 — Connect your account (everyone)
+        Or manually:
 
-    1. Go to **Customize > Connectors > Layer > Connect**
-    2. Authorize with your Layer account when prompted
+        1. Open Cursor Settings (**Cmd + ,**) and navigate to **Features > MCP**
+        2. Click **+ Add New MCP Server**, select **Streamable HTTP**
+        3. Enter **Name:** `Layer` and **URL:** `https://mcp.app.layer.ai/mcp`
+        4. OAuth triggers automatically — log in with your Layer account when prompted
+      </Tab>
+      <Tab title="VS Code">
+        [Install with VS Code](vscode:mcp/install?%7B%22name%22%3A%22Layer%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fmcp.app.layer.ai%2Fmcp%22%7D)
 
-    ### Step 3 — Verify it works
+        Or manually add to `.vscode/mcp.json`:
 
-    Open a new conversation and ask:
-
-    > "What can I do with Layer?"
-
-    Claude should respond with Layer's capabilities. If it doesn't, check that the connector shows as **Connected** in your Connectors settings.
-  </Tab>
-  <Tab title="Claude Code (CLI)">
-    1. Add the Layer MCP server:
-       ```bash
-       claude mcp add --transport http Layer https://mcp.app.layer.ai/mcp
-       ```
-       <Tip>If this fails with a transport error, try `--transport sse` instead — the correct flag depends on your Claude Code version.</Tip>
-
-    2. Launch Claude Code and run `/mcp` to open the MCP management panel
-
-    3. Select **Layer** and choose **Authenticate** — log in with your Layer account in the browser window that opens
-
-    4. Verify by asking: *"What can I do with Layer?"*
-  </Tab>
-  <Tab title="OpenAI Codex">
-    <Note>
-      Codex does not support OAuth-based authentication for MCP servers. Instead, use a **Personal Access Token (PAT)** from your Layer account to connect.
-    </Note>
-
-    ### Step 1 — Create a Personal Access Token
-
-    1. In Layer, go to **User Settings > New Token**
-    2. Copy the generated token (it starts with `pat_`)
-
-    ### Step 2 — Set the token as an environment variable
-
-    Add this to your `~/.zshrc` (or `~/.bashrc`):
-
-    ```bash
-    export LAYER_PAT="pat_your_token_here"
-    ```
-
-    Then restart your terminal and Codex so it picks up the new variable.
-
-    ### Step 3 — Add the Layer connector
-
-    1. In Codex, go to **Connect to a custom MCP**
-    2. Select the **Streamable HTTP** tab
-    3. Fill in:
-       - **Name:** `Layer`
-       - **URL:** `https://mcp.app.layer.ai/mcp`
-       - **Bearer token env var:** `LAYER_PAT`
-    4. Click **Save**
-
-    ### Step 4 — Verify it works
-
-    Ask Codex: *"What can I do with Layer?"*
-  </Tab>
-  <Tab title="Manus">
-    <Note>
-      Manus does not support OAuth-based authentication for MCP servers. Instead, use a **Personal Access Token (PAT)** from your Layer account to connect.
-    </Note>
-
-    ### Step 1 — Create a Personal Access Token
-
-    1. In Layer, go to **User Settings > New Token**
-    2. Copy the generated token (it starts with `pat_`)
-
-    ### Step 2 — Add the Layer connector
-
-    In Manus, go to **Personalization > Connectors**, click **Add connector**, then select **Custom MCP > Import by JSON** and paste:
-
-    ```json
-    {
-      "mcpServers": {
-        "Layer": {
-          "type": "streamableHttp",
-          "url": "https://mcp.app.layer.ai/mcp",
-          "headers": {
-            "Authorization": "Bearer YOUR_PERSONAL_ACCESS_TOKEN"
+        ```json
+        {
+          "servers": {
+            "Layer": {
+              "type": "http",
+              "url": "https://mcp.app.layer.ai/mcp"
+            }
           }
         }
-      }
-    }
-    ```
+        ```
 
-    Replace `YOUR_PERSONAL_ACCESS_TOKEN` with the token from step 1.
+        OAuth triggers on first use — log in with your Layer account when prompted.
+      </Tab>
+      <Tab title="Windsurf">
+        ### Step 1 — Add the Layer MCP server
 
-    ### Step 3 — Verify it works
+        Open the Command Palette (**Cmd + Shift + P**), search for **MCP: Add Server**, and select **HTTP**.
 
-    Click the **Try it out** button — Manus will open a prompt to test the connection and show you Layer's capabilities.
+        Or add to `~/.codeium/windsurf/mcp_config.json`:
+
+        ```json
+        {
+          "mcpServers": {
+            "Layer": {
+              "serverUrl": "https://mcp.app.layer.ai/mcp"
+            }
+          }
+        }
+        ```
+
+        ### Step 2 — Authenticate
+
+        The OAuth flow will trigger automatically — log in with your Layer account when prompted.
+
+        ### Step 3 — Verify it works
+
+        Ask: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="Gemini CLI">
+        1. Open your terminal to access the CLI.
+        2. Run this command:
+           ```bash
+           gemini mcp add --transport http Layer https://mcp.app.layer.ai/mcp
+           ```
+        3. Or add to `~/.gemini/settings.json` manually.
+        4. OAuth triggers on first use.
+      </Tab>
+      <Tab title="Amp">
+        Add to `.amp/settings.json`:
+
+        ```json
+        {
+          "mcpServers": {
+            "Layer": {
+              "url": "https://mcp.app.layer.ai/mcp"
+            }
+          }
+        }
+        ```
+
+        OAuth triggers automatically on first use — log in with your Layer account when prompted.
+      </Tab>
+      <Tab title="OpenCode">
+        Add to `opencode.json`:
+
+        ```json
+        {
+          "mcp": {
+            "Layer": {
+              "type": "remote",
+              "url": "https://mcp.app.layer.ai/mcp"
+            }
+          }
+        }
+        ```
+
+        OAuth triggers automatically on first use — log in with your Layer account when prompted.
+      </Tab>
+      <Tab title="Warp">
+        In Warp, go to **Warp Drive > MCP Servers > + Add**, select **URL**, and enter:
+
+        ```
+        https://mcp.app.layer.ai/mcp
+        ```
+
+        OAuth triggers automatically — log in with your Layer account when prompted.
+      </Tab>
+      <Tab title="Zed">
+        Zed only supports stdio transport. Use `mcp-remote` as a bridge.
+
+        Add to `~/.config/zed/settings.json`:
+
+        ```json
+        {
+          "context_servers": {
+            "Layer": {
+              "command": "npx",
+              "args": [
+                "-y",
+                "mcp-remote",
+                "https://mcp.app.layer.ai/mcp"
+              ]
+            }
+          }
+        }
+        ```
+
+        OAuth triggers automatically on first use — log in with your Layer account when prompted.
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab title="API Key">
+    Connect using a Personal Access Token (PAT) — works with any MCP client.
+
+    First, generate a PAT in Layer: go to **User Settings > New Token** and copy the token (starts with `pat_`).
+
+    <Tabs>
+      <Tab title="Claude.ai / Claude Desktop">
+        Claude.ai and Claude Desktop support OAuth natively. Switch to the **OAuth** tab above for setup instructions.
+      </Tab>
+      <Tab title="Claude Code (CLI)">
+        1. Open your terminal to access the CLI.
+        2. Run this command, replacing `YOUR_PAT` with your token:
+           ```bash
+           claude mcp add --transport http Layer https://mcp.app.layer.ai/mcp --header "Authorization: Bearer YOUR_PAT"
+           ```
+        3. Verify by asking: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="Codex">
+        1. Open your terminal to access the CLI.
+        2. Replace `YOUR_PAT` with your token, then run:
+           ```bash
+           codex mcp add layer -- npx -y mcp-remote@latest https://mcp.app.layer.ai/mcp \
+             --header "Authorization: Bearer YOUR_PAT"
+           ```
+        3. Verify by asking: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="Manus">
+        ### Step 1 — Add the Layer connector
+
+        In Manus, go to **Personalization > Connectors**, click **Add connector**, then select **Custom MCP > Import by JSON** and paste:
+
+        ```json
+        {
+          "mcpServers": {
+            "Layer": {
+              "type": "streamableHttp",
+              "url": "https://mcp.app.layer.ai/mcp",
+              "headers": {
+                "Authorization": "Bearer YOUR_PAT"
+              }
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token and click **Save**.
+
+        ### Step 2 — Verify it works
+
+        Click the **Try it out** button — Manus will open a prompt to test the connection and show you Layer's capabilities.
+      </Tab>
+      <Tab title="Cursor">
+        ### Step 1 — Add the Layer MCP server
+
+        Add to `.cursor/mcp.json`:
+
+        ```json
+        {
+          "mcpServers": {
+            "Layer": {
+              "url": "https://mcp.app.layer.ai/mcp",
+              "headers": {
+                "Authorization": "Bearer YOUR_PAT"
+              }
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token.
+
+        ### Step 2 — Verify it works
+
+        Ask: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="VS Code">
+        ### Step 1 — Add the Layer MCP server
+
+        Add to `.vscode/mcp.json`:
+
+        ```json
+        {
+          "servers": {
+            "Layer": {
+              "type": "http",
+              "url": "https://mcp.app.layer.ai/mcp",
+              "headers": {
+                "Authorization": "Bearer YOUR_PAT"
+              }
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token.
+
+        ### Step 2 — Verify it works
+
+        Ask: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="Windsurf">
+        ### Step 1 — Add the Layer MCP server
+
+        Add to `~/.codeium/windsurf/mcp_config.json`:
+
+        ```json
+        {
+          "mcpServers": {
+            "Layer": {
+              "serverUrl": "https://mcp.app.layer.ai/mcp",
+              "headers": {
+                "Authorization": "Bearer YOUR_PAT"
+              }
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token.
+
+        ### Step 2 — Verify it works
+
+        Ask: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="Gemini CLI">
+        1. Open your terminal to access the CLI.
+        2. Run this command, replacing `YOUR_PAT` with your token:
+           ```bash
+           gemini mcp add --transport http --header "Authorization: Bearer YOUR_PAT" Layer https://mcp.app.layer.ai/mcp
+           ```
+        3. Or add to `~/.gemini/settings.json` manually with the `Authorization` header.
+        4. Verify by asking: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="Amp">
+        Add to `.amp/settings.json`:
+
+        ```json
+        {
+          "mcpServers": {
+            "Layer": {
+              "url": "https://mcp.app.layer.ai/mcp",
+              "headers": {
+                "Authorization": "Bearer YOUR_PAT"
+              }
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token.
+      </Tab>
+      <Tab title="OpenCode">
+        Add to `opencode.json`:
+
+        ```json
+        {
+          "mcp": {
+            "Layer": {
+              "type": "remote",
+              "url": "https://mcp.app.layer.ai/mcp",
+              "headers": {
+                "Authorization": "Bearer YOUR_PAT"
+              }
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token.
+      </Tab>
+      <Tab title="Warp">
+        ### Step 1 — Add the Layer MCP server
+
+        In Warp, go to **Warp Drive > MCP Servers > + Add**, select **URL**, enter `https://mcp.app.layer.ai/mcp`, and add a header:
+
+        - **Key:** `Authorization`
+        - **Value:** `Bearer YOUR_PAT`
+
+        Replace `YOUR_PAT` with your token.
+
+        ### Step 2 — Verify it works
+
+        Ask: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="Zed">
+        ### Step 1 — Add the Layer MCP server
+
+        Add to `~/.config/zed/settings.json`:
+
+        ```json
+        {
+          "context_servers": {
+            "Layer": {
+              "command": "npx",
+              "args": [
+                "-y",
+                "mcp-remote",
+                "https://mcp.app.layer.ai/mcp",
+                "--header",
+                "Authorization: Bearer YOUR_PAT"
+              ]
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token.
+
+        ### Step 2 — Verify it works
+
+        Ask: *"What can I do with Layer?"*
+      </Tab>
+    </Tabs>
   </Tab>
 </Tabs>
 
@@ -211,20 +488,26 @@ Your AI agent will pick the right tools, estimate costs, run the generation, and
 
 ## Troubleshooting
 
-**Layer doesn't appear in my Connectors list**
+**Layer doesn't appear in my Connectors list (Claude)**
 Your team admin needs to add the custom connector first. If you're on a personal account, make sure you're looking under **Customize > Connectors**.
 
 **Authorization fails or times out**
 Make sure you have an active Layer account at [layer.ai](https://layer.ai). If you're behind a VPN or corporate firewall, the OAuth redirect may be blocked — try on a direct connection.
 
-**Claude doesn't seem to use Layer tools**
-Start a new conversation after connecting — existing conversations won't pick up new connectors. Check that the connector status shows **Connected** (not just **Added**).
+**Agent doesn't seem to use Layer tools**
+Start a new conversation after connecting — existing conversations may not pick up new MCP servers. Check that the connector status shows as connected.
 
-**CLI: "unknown transport" error**
-Try `--transport sse` instead of `--transport http` — the correct value depends on your Claude Code version.
+**Claude Code: "unknown transport" error**
+Try `--transport sse` instead of `--transport http` — the correct flag depends on your Claude Code version.
 
-**Codex: authentication fails**
-Run `codex mcp login layer` again to re-authenticate. Make sure you have an active Layer account.
+**Codex: MCP server not loading**
+Make sure `mcp-remote` is installed correctly. Try running `npx -y mcp-remote@latest` to verify. If using API Key, ensure the `LAYER_PAT` environment variable is set in your shell profile and you've restarted Codex.
+
+**Cursor / VS Code / Windsurf: connection fails**
+Verify the MCP server URL is exactly `https://mcp.app.layer.ai/mcp`. If using API Key, check that the `Authorization` header value starts with `Bearer ` (with a space) followed by your token.
 
 **Manus: tools not working**
-Verify that your Personal Access Token is valid and the Authorization header value starts with `Bearer ` (with a space) followed by your token. Check that the Transport Type is set to **HTTP**.
+Verify that your Personal Access Token is valid and the `Authorization` header value starts with `Bearer ` (with a space) followed by your token. Make sure the transport type is `streamableHttp` in the JSON config.
+
+**Gemini CLI: authentication error**
+If using API Key, ensure the header flag is formatted correctly: `--header "Authorization: Bearer YOUR_PAT"`. If using OAuth, the flow should trigger automatically on first tool use.
