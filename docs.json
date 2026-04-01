@@ -92,5 +92,8 @@
   "fonts": {
     "family": "Outfit"
   },
-  "css": "/styles.css"
+  "css": "/styles.css",
+  "scripts": [
+    { "src": "/scripts/tab-scroll.js" }
+  ]
 }
