@@ -64,24 +64,6 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
         3. Enter **Name:** `Layer` and **URL:** `https://mcp.app.layer.ai/mcp`
         4. OAuth triggers automatically — log in with your Layer account when prompted
       </Tab>
-      <Tab title="VS Code">
-        <a class="install-button" href="vscode:mcp/install?%7B%22name%22%3A%22Layer%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fmcp.app.layer.ai%2Fmcp%22%7D">Install with VS Code</a>
-
-        Or manually add to `.vscode/mcp.json`:
-
-        ```json
-        {
-          "servers": {
-            "Layer": {
-              "type": "http",
-              "url": "https://mcp.app.layer.ai/mcp"
-            }
-          }
-        }
-        ```
-
-        OAuth triggers on first use — log in with your Layer account when prompted.
-      </Tab>
       <Tab title="Windsurf">
         ### Step 1 — Add the Layer MCP server
 
@@ -115,6 +97,24 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
            ```
         3. Or add to `~/.gemini/settings.json` manually.
         4. OAuth triggers on first use.
+      </Tab>
+      <Tab title="VS Code">
+        <a class="install-button" href="vscode:mcp/install?%7B%22name%22%3A%22Layer%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fmcp.app.layer.ai%2Fmcp%22%7D">Install with VS Code</a>
+
+        Or manually add to `.vscode/mcp.json`:
+
+        ```json
+        {
+          "servers": {
+            "Layer": {
+              "type": "http",
+              "url": "https://mcp.app.layer.ai/mcp"
+            }
+          }
+        }
+        ```
+
+        OAuth triggers on first use — log in with your Layer account when prompted.
       </Tab>
       <Tab title="Amp">
         Add to `.amp/settings.json`:
@@ -273,31 +273,6 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
 
         Ask: *"What can I do with Layer?"*
       </Tab>
-      <Tab title="VS Code">
-        ### Step 1 — Add the Layer MCP server
-
-        Add to `.vscode/mcp.json`:
-
-        ```json
-        {
-          "servers": {
-            "Layer": {
-              "type": "http",
-              "url": "https://mcp.app.layer.ai/mcp",
-              "headers": {
-                "Authorization": "Bearer YOUR_PAT"
-              }
-            }
-          }
-        }
-        ```
-
-        Replace `YOUR_PAT` with your token.
-
-        ### Step 2 — Verify it works
-
-        Ask: *"What can I do with Layer?"*
-      </Tab>
       <Tab title="Windsurf">
         ### Step 1 — Add the Layer MCP server
 
@@ -330,6 +305,31 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
            ```
         3. Or add to `~/.gemini/settings.json` manually with the `Authorization` header.
         4. Verify by asking: *"What can I do with Layer?"*
+      </Tab>
+      <Tab title="VS Code">
+        ### Step 1 — Add the Layer MCP server
+
+        Add to `.vscode/mcp.json`:
+
+        ```json
+        {
+          "servers": {
+            "Layer": {
+              "type": "http",
+              "url": "https://mcp.app.layer.ai/mcp",
+              "headers": {
+                "Authorization": "Bearer YOUR_PAT"
+              }
+            }
+          }
+        }
+        ```
+
+        Replace `YOUR_PAT` with your token.
+
+        ### Step 2 — Verify it works
+
+        Ask: *"What can I do with Layer?"*
       </Tab>
       <Tab title="Amp">
         Add to `.amp/settings.json`:
