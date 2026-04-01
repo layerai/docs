@@ -117,22 +117,15 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
         OAuth triggers on first use — log in with your Layer account when prompted.
       </Tab>
       <Tab title="Amp">
-        Add to `.amp/settings.json`:
-
-        ```json
-        {
-          "mcpServers": {
-            "Layer": {
-              "url": "https://mcp.app.layer.ai/mcp"
-            }
-          }
-        }
-        ```
-
-        OAuth triggers automatically on first use — log in with your Layer account when prompted.
+        1. Open your terminal to access the CLI.
+        2. Run this command:
+           ```bash
+           amp mcp add layer https://mcp.app.layer.ai/mcp
+           ```
+        3. OAuth authentication via Dynamic Client Registration.
       </Tab>
       <Tab title="OpenCode">
-        Add to `opencode.json`:
+        Edit `~/.config/opencode/opencode.json`:
 
         ```json
         {
@@ -332,25 +325,10 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
         Ask: *"What can I do with Layer?"*
       </Tab>
       <Tab title="Amp">
-        Add to `.amp/settings.json`:
-
-        ```json
-        {
-          "mcpServers": {
-            "Layer": {
-              "url": "https://mcp.app.layer.ai/mcp",
-              "headers": {
-                "Authorization": "Bearer YOUR_PAT"
-              }
-            }
-          }
-        }
-        ```
-
-        Replace `YOUR_PAT` with your token.
+        Amp handles authentication internally via Dynamic Client Registration. API key authentication is not supported for Amp.
       </Tab>
       <Tab title="OpenCode">
-        Add to `opencode.json`:
+        Edit `~/.config/opencode/opencode.json`:
 
         ```json
         {
