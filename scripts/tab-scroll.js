@@ -4,12 +4,12 @@ function initTabScrollIndicators() {
     if (tablist.dataset.scrollInit) return;
     tablist.dataset.scrollInit = 'true';
 
-    var wrapper = tablist.parentElement;
-    if (!wrapper || wrapper.classList.contains('tab-scroll-wrapper')) return;
-
-    // Wrap the tablist parent
+    // Wrap the tablist itself in a relative container
+    var wrapper = document.createElement('div');
+    wrapper.className = 'tab-scroll-wrapper';
     wrapper.style.position = 'relative';
-    wrapper.classList.add('tab-scroll-wrapper');
+    tablist.parentNode.insertBefore(wrapper, tablist);
+    wrapper.appendChild(tablist);
 
     // Create fade elements
     var fadeLeft = document.createElement('div');

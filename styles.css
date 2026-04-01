@@ -32,10 +32,14 @@
   display: none;
 }
 
+.tab-scroll-wrapper {
+  overflow: visible;
+}
+
 .tab-scroll-fade {
   position: absolute;
   top: 0;
-  bottom: 0;
+  height: 100%;
   width: 48px;
   display: flex;
   align-items: center;
