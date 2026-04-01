@@ -141,13 +141,12 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
         OAuth triggers automatically on first use — log in with your Layer account when prompted.
       </Tab>
       <Tab title="Warp">
-        In Warp, go to **Warp Drive > MCP Servers > + Add**, select **URL**, and enter:
-
-        ```
-        https://mcp.app.layer.ai/mcp
-        ```
-
-        OAuth triggers automatically — log in with your Layer account when prompted.
+        1. Open **Settings > AI > Manage MCP servers > + Add > CLI Server**.
+        2. Enter this command:
+           ```bash
+           npx -y mcp-remote@latest https://mcp.app.layer.ai/mcp
+           ```
+        3. OAuth triggers on first use.
       </Tab>
       <Tab title="Zed">
         Zed only supports stdio transport. Use `mcp-remote` as a bridge.
