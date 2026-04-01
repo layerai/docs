@@ -15,10 +15,20 @@ function initTabScrollIndicators() {
     var fadeLeft = document.createElement('div');
     fadeLeft.className = 'tab-scroll-fade tab-scroll-fade-left';
     fadeLeft.textContent = '←';
+    fadeLeft.style.cursor = 'pointer';
+    fadeLeft.style.pointerEvents = 'auto';
+    fadeLeft.addEventListener('click', function () {
+      tablist.scrollBy({ left: -200, behavior: 'smooth' });
+    });
 
     var fadeRight = document.createElement('div');
     fadeRight.className = 'tab-scroll-fade tab-scroll-fade-right';
     fadeRight.textContent = '→';
+    fadeRight.style.cursor = 'pointer';
+    fadeRight.style.pointerEvents = 'auto';
+    fadeRight.addEventListener('click', function () {
+      tablist.scrollBy({ left: 200, behavior: 'smooth' });
+    });
 
     wrapper.appendChild(fadeLeft);
     wrapper.appendChild(fadeRight);
