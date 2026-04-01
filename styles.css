@@ -1,3 +1,20 @@
+/* One-click install buttons */
+.install-button {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 8px;
+  background-color: var(--primary, #600FC2);
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none !important;
+  transition: opacity 0.15s ease;
+}
+
+.install-button:hover {
+  opacity: 0.85;
+}
+
 /* Scroll indicator for overflowing tab lists */
 [role="tablist"] {
   position: relative;
