@@ -110,9 +110,14 @@ Forge supports the full range of generation parameters: prompts, dimensions, bat
 
 | Tool | Description |
 |------|-------------|
-| `upload_file` | Upload an image or video from a URL for use as input in workflows or forge |
+| `request_file_upload_url` | Get a signed upload URL for a local file (image, video, or audio) |
+| `upload_file` | Upload a file from a public URL for use as input in workflows or forge |
 
-Supported formats: PNG, JPEG, WebP (up to 100 MB), MP4 (up to 5 GB).
+`request_file_upload_url` supports PNG, JPEG, WebP (up to 100 MB), MP4 (up to 5 GB), and WAV/MP3 (up to 64 MB). `upload_file` supports PNG, JPEG, WebP, and MP4 (up to 64 MB).
+
+<Note>
+  `request_file_upload_url` is available in Claude Code CLI and similar clients. It does not work in Claude.ai or Claude Desktop due to URL allowlisting restrictions.
+</Note>
 
 ## Example prompts
 
