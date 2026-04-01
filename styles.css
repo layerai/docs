@@ -23,12 +23,12 @@
   position: relative;
 }
 
-.tab-scroll-wrapper [role="tablist"] {
+[role="tabpanel"] [role="tablist"] {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.tab-scroll-wrapper [role="tablist"]::-webkit-scrollbar {
+[role="tabpanel"] [role="tablist"]::-webkit-scrollbar {
   display: none;
 }
 

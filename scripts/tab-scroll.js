@@ -1,6 +1,6 @@
 // Add scroll indicators to overflowing tab lists
 function initTabScrollIndicators() {
-  document.querySelectorAll('[role="tablist"]').forEach(function (tablist) {
+  document.querySelectorAll('[role="tabpanel"] [role="tablist"]').forEach(function (tablist) {
     if (tablist.dataset.scrollInit) return;
     tablist.dataset.scrollInit = 'true';
 
