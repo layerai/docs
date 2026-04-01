@@ -18,21 +18,46 @@
   text-decoration: none !important;
 }
 
-/* Scroll indicator for overflowing tab lists */
-[role="tablist"] {
+/* Tab scroll indicators */
+.tab-scroll-wrapper {
   position: relative;
 }
 
-[role="tablist"]::after {
-  content: "→";
-  position: sticky;
-  right: 0;
+.tab-scroll-wrapper [role="tablist"] {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tab-scroll-wrapper [role="tablist"]::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-scroll-fade {
+  position: absolute;
   top: 0;
+  bottom: 0;
+  width: 48px;
   display: flex;
   align-items: center;
-  padding: 0 4px;
-  font-size: 14px;
-  color: var(--muted-foreground, #888);
-  background: linear-gradient(to right, transparent, var(--background, #0a0a0a) 40%);
+  justify-content: center;
   pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 14px;
+  color: #888;
+}
+
+.tab-scroll-fade.visible {
+  opacity: 1;
+}
+
+.tab-scroll-fade-right {
+  right: 0;
+  background: linear-gradient(to right, transparent, var(--background, #0f0f0f) 60%);
+}
+
+.tab-scroll-fade-left {
+  left: 0;
+  background: linear-gradient(to left, transparent, var(--background, #0f0f0f) 60%);
 }
