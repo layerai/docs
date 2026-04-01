@@ -187,7 +187,25 @@ Layer provides an [MCP (Model Context Protocol)](https://modelcontextprotocol.io
 
     <Tabs>
       <Tab title="Claude.ai / Claude Desktop">
-        Claude.ai and Claude Desktop support OAuth natively. Switch to the **OAuth** tab above for setup instructions.
+        1. Open **Settings > Developer > MCP Servers**.
+        2. Add this config (replace `YOUR_PAT` with your token):
+           ```json
+           {
+             "mcpServers": {
+               "Layer": {
+                 "command": "npx",
+                 "args": [
+                   "-y",
+                   "mcp-remote",
+                   "https://mcp.app.layer.ai/mcp",
+                   "--header",
+                   "Authorization: Bearer YOUR_PAT"
+                 ]
+               }
+             }
+           }
+           ```
+        3. Requires Node.js. `mcp-remote` is installed automatically via npx.
       </Tab>
       <Tab title="Claude Code (CLI)">
         1. Open your terminal to access the CLI.
