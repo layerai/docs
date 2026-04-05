@@ -1,6 +1,6 @@
 # Layer API Documentation
 
-Documentation site for the [Layer](https://layer.ai) REST API, built with [Mintlify](https://mintlify.com).
+Documentation site for the [Layer](https://www.layer.ai) REST API, built with [Mintlify](https://mintlify.com).
 
 ## Development
 
